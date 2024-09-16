@@ -1,3 +1,4 @@
+{-# LANGUAGE TemplateHaskell #-}
 {-# OPTIONS_GHC -Wno-orphans #-}
 
 module PlutusExperiments.Hex where
@@ -11,6 +12,7 @@ import PlutusTx.Builtins.Internal (BuiltinByteString (..))
 import PlutusTx.Prelude as P
 import qualified Prelude as H
 
+{-# NOINLINE fromHex #-}
 fromHex :: H.String -> P.BuiltinByteString
 fromHex = \case
     (firstNibble : secondNibble : rest) -> do
@@ -40,10 +42,19 @@ fromHex = \case
         'f' -> 15
         _ -> H.error $ "Invalid hex code point:" <> [nibble]
 
+-- -- Assuming BuiltinByteString has a constructor that takes ByteString
+-- instance Lift P.BuiltinByteString where
+--     lift bs = [| P.BuiltinByteString (BS.pack $(liftList bs)) |]
+--       where
+--         liftList :: [Word8] -> Q Exp
+--         liftList []     = [| [] |]
+--         liftList (x:xs) = [| x : $(liftList xs) |]
+
 _0x :: QuasiQuoter
 _0x =
     QuasiQuoter
         { quoteExp = \hexStr -> do
+            -- lift $  fromHex hexStr
             let BuiltinByteString byteString = fromHex hexStr
             let byteStringStr = map (chr . H.fromIntegral) $ BS.unpack byteString
             litStr <- litE (StringL byteStringStr)

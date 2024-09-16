@@ -15,7 +15,7 @@ import PlutusTx (
 import PlutusTx.Prelude (BuiltinByteString)
 
 test :: BuiltinByteString
-test = [_0x|ff8f|]
+test = [_0x|ff|]
 
 plutusFn :: () -> BuiltinByteString
 plutusFn = const test

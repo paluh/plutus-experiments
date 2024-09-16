@@ -77,3 +77,18 @@ library
     , plutus-tx ^>=1.30
     , plutus-tx-plugin ^>=1.30
     , template-haskell
+
+test-suite plutus-experiments-test
+  import:             base
+  hs-source-dirs:     test
+  type:               exitcode-stdio-1.0
+  main-is:            Spec.hs
+  build-depends:
+    , base
+    , bytestring
+    , hspec
+    , plutus-experiments
+    , plutus-tx
+
+  build-tool-depends: hspec-discover:hspec-discover
+  ghc-options:        -threaded -j8
