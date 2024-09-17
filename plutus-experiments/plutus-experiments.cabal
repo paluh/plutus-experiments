@@ -74,6 +74,7 @@ library
     , base
     , bytestring
     , deepseq
+    , ghc-prim
     , plutus-tx ^>=1.30
     , plutus-tx-plugin ^>=1.30
     , template-haskell
@@ -85,10 +86,13 @@ test-suite plutus-experiments-test
   main-is:            Spec.hs
   build-depends:
     , base
+    , base16-bytestring
     , bytestring
     , hspec
     , plutus-experiments
+    , plutus-ledger-api
     , plutus-tx
+    , text
 
   build-tool-depends: hspec-discover:hspec-discover
   ghc-options:        -threaded -j8
